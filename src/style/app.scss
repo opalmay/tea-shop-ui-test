@@ -91,6 +91,26 @@
   }
 }
 
+.center {
+  text-align: center;
+}
+.data-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%; 
+  flex-direction: column;
+  margin-bottom: 5px;
+  div:first-child(){
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    flex-direction: column;
+    * {
+      margin-bottom: 5px;
+    }
+  }
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
@@ -112,6 +132,16 @@
   .jumbotron {
     border-bottom: 0;
   }
+
+  .data-controls {
+    flex-direction: row;
+    div:first-child() {
+      flex-direction: row;
+      justify-content: center;
+      * {
+        margin-right: 5px;
+        margin-bottom: 0;
+      }
+    }
+  }
 }
-
-

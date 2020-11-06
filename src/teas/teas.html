@@ -1,3 +1,124 @@
 <div class="row" ng-controller="TeasCtrl as teas">
+	<div class="data-controls">
+		<div>
+			<input
+				class="form-control"
+				placeholder="Filter by Text..."
+				ng-model="filters.text"
+				ng-change="processTeasToShow()"
+			/>
+			<select
+				class="custom-select"
+				ng-model="filters.type"
+				ng-change="processTeasToShow()"
+			>
+				<option value="">Tea Type...</option>
+				<option
+					ng-repeat="type in teas.teaTypes track by $index"
+					ng-value="type"
+				>
+					{{type}}
+				</option>
+			</select>
+			<select class="custom-select" ng-model="sortMethod" ng-change="sort()">
+				<option value="name">Sort by Name</option>
+				<option value="price_asc">Cheapest First</option>
+				<option value="price_desc">Most Expensive First</option>
+			</select>
+		</div>
+		<div
+			class="btn-group btn-group-toggle"
+			data-toggle="buttons"
+			ng-init="display='grid'"
+		>
+			<label class="btn btn-secondary active">
+				<input
+					type="radio"
+					name="options"
+					value="grid"
+					ng-model="display"
+					checked
+				/>Grid
+			</label>
+			<label class="btn btn-secondary">
+				<input
+					type="radio"
+					name="options"
+					value="table"
+					ng-model="display"
+				/>Table
+			</label>
+		</div>
+	</div>
+	<div ng-if="display === 'grid'" class="card-columns">
+		<div class="card" ng-repeat="tea in teas.teasToShow track by $index">
+			<div class="card-header">
+				Price: {{tea.price}}
+				<i class="fa fa-usd"></i>
+			</div>
 
+			<img
+				ng-if="tea.image"
+				alt="{{tea.name}}"
+				class="img-fluid"
+				ng-src="{{tea.image}}"
+			/>
+
+			<div class="card-block">
+				<h4 class="card-title">{{tea.name}}</h4>
+				<p class="card-text">{{tea.description}}</p>
+			</div>
+			<div class="card-block">
+				<a class="card-link" ng-href="/teas/{{tea.id}}">Product Page</a>
+				<a class="card-link" ng-href="{{tea.link}}">Details Source</a>
+				<ngcart-addtocart
+					id="{{tea.id}}"
+					data="tea"
+					name="{{tea.name}}"
+					price="{{tea.price}}"
+					quantity="1"
+					quantity-max="5"
+					><i class="fa fa-cart-plus"></i> Add to Cart</ngcart-addtocart
+				>
+			</div>
+		</div>
+	</div>
+	<div ng-if="display === 'table'" class="table-responsive">
+		<table class="table">
+			<thead class="center">
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Price</th>
+					<th>Product Page</th>
+					<th>Details Source</th>
+					<th>Add to Cart</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="tea in teas.teasToShow track by $index">
+					<td>{{tea.name}}</td>
+					<td>{{tea.description}}</td>
+					<td>{{tea.price}}</td>
+					<td>
+						<a class="card-link" ng-href="/teas/{{tea.id}}">Product Page</a>
+					</td>
+					<td>
+						<a class="card-link" ng-href="{{tea.link}}">Details Source</a>
+					</td>
+					<td class="center">
+						<ngcart-addtocart
+							id="{{tea.id}}"
+							data="tea"
+							name="{{tea.name}}"
+							price="{{tea.price}}"
+							quantity="1"
+							quantity-max="5"
+							><i class="fa fa-cart-plus"></i> Add to Cart</ngcart-addtocart
+						>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
